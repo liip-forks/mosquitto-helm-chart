@@ -39,13 +39,9 @@ helm install mosquitto mosquitto/mosquitto -f your-values.yaml
 
 ## Passwords
 
-Use the software `mosquitto_passwd` to generate the password in the correct format:
-
+Use the mosquitto image to generate a password in the correct format:
 ```bash
-FILE=$(mktemp)
-mosquitto_passwd -H sha512-pbkdf2 -c $FILE USERNAME
-cut -d ":" -f 2 $FILE
-rm $FILE
+docker run -it --rm eclipse-mosquitto /bin/sh -c "mosquitto_passwd -c -H sha512-pbkdf2 /tmp/pwfile user; cut -d ':' -f2 /tmp/pwfile"
 ```
 
 ## TLS
